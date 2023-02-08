@@ -35,5 +35,30 @@ namespace apiCoder.ADO.NET
             }
             return user;
         }
+
+        public static User GetUserById(string id)
+        {
+            User user = new User();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("SELECT * FROM Usuario WHERE Id = @Id", connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            user.Nombre = (string)reader["Nombre"];
+                            user.Apellido = (string)reader["Apellido"];
+                            user.NombreUsuario = (string)reader["NombreUsuario"];
+                            user.Contraseña = (string)reader["Contraseña"];
+                            user.Mail = (string)reader["Mail"];
+                        }
+                    }
+                }
+            }
+            return user;
+        }
     }
 }

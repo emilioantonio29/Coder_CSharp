@@ -13,7 +13,7 @@ namespace apiCoder.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-
+        [Route("getUser")]
         [HttpPost]
         public object GetUserController([FromBody] UserLogin user)
         {
@@ -25,7 +25,7 @@ namespace apiCoder.Controllers
                 var res = new object[] {
                     new { Unauthorized = "User not found or invalid password"}
 };
-                return res;
+                return res[0];
             }
             else {
 
@@ -38,9 +38,32 @@ namespace apiCoder.Controllers
                     var res = new object[] {
                     new { Unauthorized = "User not found or invalid password"}
 };
-                    return res;
+                    return res[0];
                 }
             
+            }
+
+        }
+
+        [Route("getUserById/{userId}")]
+        [HttpGet]
+        public object GetUserByIdController([FromRoute] string userId)
+        {
+            User usuario = new User();
+            usuario = UserADO.GetUserById(userId);
+
+            if (usuario.Nombre is null)
+            {
+                var res = new object[] {
+                    new { NotFound = "User not found"}
+};
+                return res[0];
+            }
+            else
+            {
+
+                return usuario;
+
             }
 
         }
