@@ -120,5 +120,33 @@ namespace apiCoder.ADO.NET
 
             return productosVendidos;
         }
+
+        public static List<Venta> GetSalesByUserId(string id)
+        {
+
+            List<Venta> ventas = new List<Venta>();
+            Venta venta = new Venta();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("SELECT * FROM Venta WHERE IdUsuario = @Id", connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            venta.Id = (object)reader["Id"];
+                            venta.Comentarios = (string)reader["Comentarios"];
+                            venta.IdUsuario = (object)reader["IdUsuario"];
+                            ventas.Add(venta);
+                        }
+                    }
+                }
+
+            }
+
+            return ventas;
+        }
     }
 }

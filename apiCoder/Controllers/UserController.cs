@@ -107,5 +107,26 @@ namespace apiCoder.Controllers
             }
 
         }
+
+        [Route("getSalesByUserId/{userId}")]
+        [HttpGet]
+        public object GetSalesByUserIdController([FromRoute] string userId)
+        {
+            List<Venta> items = new List<Venta>();
+            items = UserADO.GetSalesByUserId(userId);
+
+            if (items.Count > 0)
+            {
+                return items;
+            }
+            else
+            {
+
+                var res = new object[] { new { SalesNotFound = "User has no sales" } };
+                return res[0];
+
+            }
+
+        }
     }
 }
