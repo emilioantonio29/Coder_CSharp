@@ -35,9 +35,7 @@ namespace apiCoder.Controllers
                 }
                 else 
                 {
-                    var res = new object[] {
-                    new { Unauthorized = "User not found or invalid password"}
-};
+                    var res = new object[] {new { Unauthorized = "User not found or invalid password"}};
                     return res[0];
                 }
             
@@ -63,6 +61,27 @@ namespace apiCoder.Controllers
             {
 
                 return usuario;
+
+            }
+
+        }
+
+        [Route("getProductsByUserId/{userId}")]
+        [HttpGet]
+        public object GetProductsByUserIdController([FromRoute] string userId)
+        {
+            List<Producto> items = new List<Producto>();
+            items = UserADO.GetProductsByUserId(userId);
+
+            if (items.Count > 0)
+            {
+                return items;
+            }
+            else
+            {
+
+                var res = new object[] {new { NotFound = "User not found"}};
+                return res[0];
 
             }
 

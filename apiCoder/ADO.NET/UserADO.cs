@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace apiCoder.ADO.NET
@@ -24,6 +25,7 @@ namespace apiCoder.ADO.NET
                     {
                         if (reader.Read())
                         {
+                            user.Id = (object)reader["Id"];
                             user.Nombre = (string)reader["Nombre"];
                             user.Apellido = (string)reader["Apellido"];
                             user.NombreUsuario = (string)reader["NombreUsuario"];
@@ -49,6 +51,7 @@ namespace apiCoder.ADO.NET
                     {
                         if (reader.Read())
                         {
+                            user.Id = (object)reader["Id"];
                             user.Nombre = (string)reader["Nombre"];
                             user.Apellido = (string)reader["Apellido"];
                             user.NombreUsuario = (string)reader["NombreUsuario"];
@@ -59,6 +62,34 @@ namespace apiCoder.ADO.NET
                 }
             }
             return user;
+        }
+
+        public static List<Producto> GetProductsByUserId(string id)
+        {
+            List<Producto> items = new List<Producto>();
+            Producto product = new Producto();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("SELECT * FROM Producto WHERE IdUsuario = @Id", connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            product.Id = (object)reader["Id"];
+                            product.Descripciones = (string)reader["Descripciones"];
+                            product.Costo = (object)reader["Costo"];
+                            product.PrecioVenta = (object)reader["PrecioVenta"];
+                            product.Stock = (int)reader["Stock"];
+                            product.IdUsuario = (object)reader["IdUsuario"];
+                            items.Add(product);
+                        }
+                    }
+                }
+            }
+            return items;
         }
     }
 }
