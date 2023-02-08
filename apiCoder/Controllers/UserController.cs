@@ -80,7 +80,28 @@ namespace apiCoder.Controllers
             else
             {
 
-                var res = new object[] {new { NotFound = "User not found"}};
+                var res = new object[] {new { ProductsNotFound = "There's no products added by that user"}};
+                return res[0];
+
+            }
+
+        }
+
+        [Route("getProductsSoldByUserId/{userId}")]
+        [HttpGet]
+        public object GetProductsSoldByUserIdController([FromRoute] string userId)
+        {
+            List<ProductoVendido> items = new List<ProductoVendido>();
+            items = UserADO.GetProductsSoldByUserId(userId);
+
+            if (items.Count > 0)
+            {
+                return items;
+            }
+            else
+            {
+
+                var res = new object[] { new { ProductsNotFound = "There's no products sold by that user" } };
                 return res[0];
 
             }

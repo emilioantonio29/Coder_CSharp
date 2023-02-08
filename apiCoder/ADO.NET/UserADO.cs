@@ -91,5 +91,34 @@ namespace apiCoder.ADO.NET
             }
             return items;
         }
+
+        public static List<ProductoVendido> GetProductsSoldByUserId(string id)
+        {
+
+            List<ProductoVendido> productosVendidos = new List<ProductoVendido>();
+            ProductoVendido vendido = new ProductoVendido();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("SELECT * FROM ProductoVendido WHERE IdVenta IN (SELECT Id FROM Venta where IdUsuario = @Id)", connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            vendido.Id = (object)reader["Id"];
+                            vendido.Stock = (int)reader["Stock"];
+                            vendido.IdProducto = (object)reader["IdProducto"];
+                            vendido.IdVenta = (object)reader["IdVenta"];
+                            productosVendidos.Add(vendido);
+                        }
+                    }
+                }
+
+            }
+
+            return productosVendidos;
+        }
     }
 }
