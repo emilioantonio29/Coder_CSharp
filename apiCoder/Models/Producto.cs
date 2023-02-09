@@ -14,4 +14,14 @@ namespace apiCoder.Models
         public int Stock { get; set; }
         public object IdUsuario { get; set; }
     }
+
+    public class CreateProducto
+    {
+        public int Id { get; set; }
+        public string Descripciones { get; set; }
+        public System.Decimal Costo { get; set; }
+        public System.Decimal PrecioVenta { get; set; }
+        public int Stock { get; set; }
+        public int IdUsuario { get; set; }
+    }
 }

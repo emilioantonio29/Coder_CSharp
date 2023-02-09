@@ -139,9 +139,7 @@ namespace apiCoder.Controllers
 
             if (usuario.Nombre is null)
             {
-                var res = new object[] {
-                    new { UserNotFound = "Unable to update. User not found."}
-};
+                var res = new object[] {new { UserNotFound = "Unable to update. User not found."}};
                 return res[0];
             }
             else
