@@ -148,5 +148,26 @@ namespace apiCoder.ADO.NET
 
             return ventas;
         }
+
+        public static int UpdateUser(User userObject)
+        {
+            User user = new User();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("UPDATE Usuario set Nombre=@Nombre, Apellido=@Apellido, NombreUsuario=@NombreUsuario, Contraseña=@Contraseña, Mail=@Mail WHERE NombreUsuario =@NombreUsuario", connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", userObject.Nombre);
+                    command.Parameters.AddWithValue("@Apellido", userObject.Apellido);
+                    command.Parameters.AddWithValue("@NombreUsuario", userObject.NombreUsuario);
+                    command.Parameters.AddWithValue("@Contraseña", userObject.Contraseña);
+                    command.Parameters.AddWithValue("@Mail", userObject.Mail);
+               
+                    var response = command.ExecuteNonQuery();
+
+                    return response;
+                }
+            }
+        }
     }
 }

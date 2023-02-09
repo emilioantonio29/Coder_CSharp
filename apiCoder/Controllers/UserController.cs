@@ -128,5 +128,41 @@ namespace apiCoder.Controllers
             }
 
         }
+
+        [Route("updateUser")]
+        [HttpPut]
+        public object UpdateUserController([FromBody] User user)
+        {
+
+            User usuario = new User();
+            usuario = UserADO.GetUser(user.NombreUsuario);
+
+            if (usuario.Nombre is null)
+            {
+                var res = new object[] {
+                    new { UserNotFound = "Unable to update. User not found."}
+};
+                return res[0];
+            }
+            else
+            {
+
+                var update = UserADO.UpdateUser(user);
+
+                if (update > 0)
+                {
+                    var res = new object[] { new { UserUpdated = "User successfully updated." } };
+                    return res[0];
+                }
+                else 
+                { 
+                    var res = new object[] {new { UserNotFound = "Unable to update. User not found."}};
+                    return res[0];
+                }
+
+
+            }
+
+        }
     }
 }
