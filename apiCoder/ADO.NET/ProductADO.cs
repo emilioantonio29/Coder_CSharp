@@ -115,7 +115,6 @@ namespace apiCoder.ADO.NET
         public static List<Producto> GetAllProducts()
         {
             List<Producto> items = new List<Producto>();
-            Producto product = new Producto();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -125,6 +124,7 @@ namespace apiCoder.ADO.NET
                     {
                         while (reader.Read())
                         {
+                            Producto product = new Producto();
                             product.Id = (object)reader["Id"];
                             product.Descripciones = (string)reader["Descripciones"];
                             product.Costo = (object)reader["Costo"];
@@ -143,7 +143,6 @@ namespace apiCoder.ADO.NET
         {
 
             List<ProductoVendido> productosVendidos = new List<ProductoVendido>();
-            ProductoVendido vendido = new ProductoVendido();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -153,6 +152,7 @@ namespace apiCoder.ADO.NET
                     {
                         while (reader.Read())
                         {
+                            ProductoVendido vendido = new ProductoVendido();
                             vendido.Id = (object)reader["Id"];
                             vendido.Stock = (int)reader["Stock"];
                             vendido.IdProducto = (object)reader["IdProducto"];
@@ -171,7 +171,6 @@ namespace apiCoder.ADO.NET
         {
 
             List<Venta> ventas = new List<Venta>();
-            Venta venta = new Venta();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -181,6 +180,7 @@ namespace apiCoder.ADO.NET
                     {
                         while (reader.Read())
                         {
+                            Venta venta = new Venta();
                             venta.Id = (object)reader["Id"];
                             venta.Comentarios = (string)reader["Comentarios"];
                             venta.IdUsuario = (object)reader["IdUsuario"];
