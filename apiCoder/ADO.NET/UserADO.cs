@@ -151,7 +151,6 @@ namespace apiCoder.ADO.NET
 
         public static int UpdateUser(User userObject)
         {
-            User user = new User();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -178,6 +177,26 @@ namespace apiCoder.ADO.NET
                 using (SqlCommand command = new SqlCommand("DELETE FROM Usuario WHERE NombreUsuario=@NombreUsuario", connection))
                 {
                     command.Parameters.AddWithValue("@NombreUsuario", userObject.NombreUsuario);
+
+                    var response = command.ExecuteNonQuery();
+
+                    return response;
+                }
+            }
+        }
+
+        public static int CreateUser(User userObject)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("INSERT INTO Usuario VALUES(@Nombre, @Apellido, @NombreUsuario, @Contraseña, @Mail)", connection))
+                {
+                    command.Parameters.AddWithValue("@Nombre", userObject.Nombre);
+                    command.Parameters.AddWithValue("@Apellido", userObject.Apellido);
+                    command.Parameters.AddWithValue("@NombreUsuario", userObject.NombreUsuario);
+                    command.Parameters.AddWithValue("@Contraseña", userObject.Contraseña);
+                    command.Parameters.AddWithValue("@Mail", userObject.Mail);
 
                     var response = command.ExecuteNonQuery();
 

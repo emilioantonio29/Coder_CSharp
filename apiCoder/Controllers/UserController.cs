@@ -43,6 +43,42 @@ namespace apiCoder.Controllers
 
         }
 
+        [Route("createUser")]
+        [HttpPost]
+        public object CreateUserController([FromBody] User user)
+        {
+            User usuario = new User();
+            usuario = UserADO.GetUser(user.NombreUsuario);
+
+            if (usuario.Nombre is null)
+            {
+
+                var response = UserADO.CreateUser(user);
+
+                if (response > 0)
+                {
+
+                    var res = new object[] { new { UserCreated = "User created successfully" } };
+                    return res[0];
+
+                }
+                else 
+                {
+                    var res = new object[] { new { Error = "Unable to create user. Please try again later" } };
+                    return res[0];
+                }
+
+            }
+            else
+            {
+
+                var res = new object[] { new { UserAlreadyExists = "Unable to create user. Username already registered" } };
+                return res[0];
+
+            }
+
+        }
+
         [Route("getUserById/{userId}")]
         [HttpGet]
         public object GetUserByIdController([FromRoute] string userId)
