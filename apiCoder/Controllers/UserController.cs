@@ -13,7 +13,7 @@ namespace apiCoder.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        [Route("getUser")]
+        [Route("loginUser")]
         [HttpPost]
         public object GetUserController([FromBody] UserLogin user)
         {
@@ -158,6 +158,41 @@ namespace apiCoder.Controllers
                     return res[0];
                 }
 
+
+            }
+
+        }
+
+        [Route("deleteUser")]
+        [HttpDelete]
+        public object DeleteUserController([FromBody] User user)
+        {
+
+            User usuario = new User();
+            usuario = UserADO.GetUser(user.NombreUsuario);
+
+            if (usuario.Nombre is null)
+            {
+                var res = new object[] { new { UserNotFound = "Unable to delete. User not found." } };
+                return res[0];
+            }
+            else
+            {
+
+                ProductADO.DeleteProductByUserId(Convert.ToInt32(usuario.Id));
+
+                var update = UserADO.DeleteUser(user);
+
+                if (update > 0)
+                {
+                    var res = new object[] { new { UserDeleted = "User deleted successfully." } };
+                    return res[0];
+                }
+                else
+                {
+                    var res = new object[] { new { UserNotFound = "Unable to delete. User not found." } };
+                    return res[0];
+                }
 
             }
 

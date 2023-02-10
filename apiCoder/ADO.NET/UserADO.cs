@@ -169,5 +169,21 @@ namespace apiCoder.ADO.NET
                 }
             }
         }
+
+        public static int DeleteUser(User userObject)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("DELETE FROM Usuario WHERE NombreUsuario=@NombreUsuario", connection))
+                {
+                    command.Parameters.AddWithValue("@NombreUsuario", userObject.NombreUsuario);
+
+                    var response = command.ExecuteNonQuery();
+
+                    return response;
+                }
+            }
+        }
     }
 }
