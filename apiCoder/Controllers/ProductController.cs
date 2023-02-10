@@ -98,5 +98,68 @@ namespace apiCoder.Controllers
             }
 
         }
+
+        [Route("getAllProducts")]
+        [HttpGet]
+        public object GetAllProductsController()
+        {
+            List<Producto> items = new List<Producto>();
+            items = ProductADO.GetAllProducts();
+
+            if (items.Count > 0)
+            {
+                return items;
+            }
+            else
+            {
+
+                var res = new object[] { new { ProductsNotFound = "There's no products" } };
+                return res[0];
+
+            }
+
+        }
+
+        [Route("getAllSoldProducts")]
+        [HttpGet]
+        public object GetAllSoldProductsController()
+        {
+            List<ProductoVendido> items = new List<ProductoVendido>();
+            items = ProductADO.GetAllSoldProducts();
+
+            if (items.Count > 0)
+            {
+                return items;
+            }
+            else
+            {
+
+                var res = new object[] { new { SoldProductsNotFound = "Unable to response. There's no sold products yet" } };
+                return res[0];
+
+            }
+
+        }
+
+        [Route("getSales")]
+        [HttpGet]
+        public object GetAllSalesController()
+        {
+            List<Venta> items = new List<Venta>();
+            items = ProductADO.GetAllSales();
+
+            if (items.Count > 0)
+            {
+                return items;
+            }
+            else
+            {
+
+                var res = new object[] { new { SalesNotFound = "Unable to response. There's no sales yet" } };
+                return res[0];
+
+            }
+
+        }
     }
 }
