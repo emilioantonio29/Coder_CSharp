@@ -29,7 +29,7 @@ namespace apiCoder.Controllers
             }
             else
             {
-                var res = new object[] { new { Error = "Unable to create producto, please try again" } };
+                var res = new object[] { new { Error = "Unable to create product, please try again" } };
                 return res[0];
             }
 
@@ -64,6 +64,37 @@ namespace apiCoder.Controllers
                     return res[0];
                 }
 
+            }
+
+        }
+
+        [Route("getUserById/{productId}")]
+        [HttpDelete]
+        public object DeleteProductController([FromRoute] int productId)
+        {
+
+            Producto newProduct = new Producto();
+            newProduct = ProductADO.GetProduct(productId.ToString());
+
+            if (newProduct.Id is null)
+            {
+                var res = new object[] { new { ProductNotFound = "Unable to delete. Product not found" } };
+                return res[0];
+            }
+            else 
+            {
+                var result = ProductADO.DeleteProductByProductId(productId);
+
+                if (result > 0)
+                {
+                    var res = new object[] { new { ProductDeletedSuccessfully = "Product deleted successfully" } };
+                    return res[0];
+                }
+                else
+                {
+                    var res = new object[] { new { Error = "Unable to delete product, please try again" } };
+                    return res[0];
+                }
             }
 
         }

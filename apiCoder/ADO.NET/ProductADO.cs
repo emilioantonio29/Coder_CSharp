@@ -95,5 +95,21 @@ namespace apiCoder.ADO.NET
                 }
             }
         }
+
+        public static int DeleteProductByProductId(int Id)
+        {
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand("DELETE FROM Producto WHERE Id=@Id", connection))
+                {
+                    command.Parameters.AddWithValue("@Id", Id);
+                    var response = command.ExecuteNonQuery();
+
+                    return response;
+                }
+            }
+        }
     }
 }
